@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>⚒ ACG Mapper · paste your workflow · find your rung</title>
+<meta name="description" content="An AI Craftspeople Guild diagnostic. Paste your workflow, see what an AI-assisted build would actually contain, and find the audit that fits your stage. Single HTML. On-device.">
+<meta name="prime" content="503">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Work+Sans:wght@300;400;600&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link rel="manifest" href='data:application/manifest+json,{"name":"ACG Mapper","short_name":"acg-mapper","start_url":"./","display":"standalone","background_color":"%23F5F1E8","theme_color":"%23C84B31","icons":[{"src":"data:image/svg+xml;utf8,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 192 192%27><rect width=%27192%27 height=%27192%27 fill=%27%23F5F1E8%27 rx=%2724%27/><text x=%2796%27 y=%27130%27 font-family=%27Playfair Display, serif%27 font-size=%27110%27 font-weight=%27900%27 text-anchor=%27middle%27 fill=%27%23C84B31%27>⚒</text></svg>","sizes":"192x192","type":"image/svg+xml"}]}'>
+
+<style>
+:root {
+  --parchment: #F5F1E8;
+  --parchment-2: #ECE6D6;
+  --ink: #1A1614;
+  --ink-soft: #4a423d;
+  --rust: #C84B31;
+  --rust-dim: #a23c26;
+  --bronze: #A67C52;
+  --bronze-dim: #856242;
+  --graphite: #2D3436;
+  --knowledge: #3F6C8E;
+  --highlight: #FFF4E0;
+  --line: #d8d0bd;
+  --line-soft: #e5dfcc;
+  --shadow: rgba(26, 22, 20, 0.08);
+  --red: #b22222;
+  --green: #4a7c4a;
+  --r: 4px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:var(--parchment);color:var(--ink);font:300 16px/1.6 'Work Sans',-apple-system,system-ui,sans-serif;min-height:100dvh;-webkit-font-smoothing:antialiased}
+body{padding-bottom:env(safe-area-inset-bottom);background-image:radial-gradient(rgba(166,124,82,0.04) 1px,transparent 1px);background-size:40px 40px}
+h1,h2,h3{font-family:'Playfair Display',serif;font-weight:700;color:var(--ink);letter-spacing:-0.01em}
+h1{font-size:34px;line-height:1.15;font-weight:900}
+h2{font-size:20px;line-height:1.3}
+h3{font-size:14px;text-transform:uppercase;letter-spacing:0.12em;color:var(--bronze);font-family:'Courier Prime',monospace;font-weight:700}
+a{color:var(--rust);text-decoration:underline;text-decoration-color:rgba(200,75,49,0.3);text-underline-offset:3px;transition:color 0.2s}
+a:hover{color:var(--rust-dim)}
+
+header{padding:18px 22px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(245,241,232,0.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:50}
+.top{display:flex;align-items:center;justify-content:space-between;max-width:1100px;margin:0 auto;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-mark{width:42px;height:42px;background:linear-gradient(135deg,var(--bronze) 0%,var(--rust) 100%);border-radius:6px;display:grid;place-items:center;color:var(--parchment);font-family:'Playfair Display',serif;font-size:22px;font-weight:900;box-shadow:0 2px 6px var(--shadow)}
+.brand-text .name{font-family:'Playfair Display',serif;font-weight:900;font-size:17px;color:var(--ink);letter-spacing:0.01em}
+.brand-text .sub{font-family:'Courier Prime',monospace;font-size:10px;color:var(--bronze);letter-spacing:0.18em;text-transform:uppercase;margin-top:1px}
+.toolbar{display:flex;gap:8px;align-items:center}
+.icon-btn{background:transparent;border:1px solid var(--line);color:var(--ink-soft);padding:7px 12px;border-radius:var(--r);font-size:11px;cursor:pointer;font-family:'Courier Prime',monospace;letter-spacing:0.08em;text-transform:uppercase;transition:all 0.15s}
+.icon-btn:hover{border-color:var(--bronze);color:var(--ink)}
+.icon-btn.t3{border-color:var(--knowledge);color:var(--knowledge);background:rgba(63,108,142,0.05)}
+
+main{max-width:1100px;margin:0 auto;padding:28px 22px 60px}
+
+.hero{padding:24px 0 22px;border-bottom:1px dashed var(--line);margin-bottom:24px}
+.hero .eyebrow{font-family:'Courier Prime',monospace;font-size:11px;color:var(--bronze);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:14px}
+.hero h1{margin-bottom:14px}
+.hero h1 .accent{color:var(--rust);font-style:italic}
+.hero p{color:var(--ink-soft);font-size:17px;max-width:720px;line-height:1.55}
+.hero p strong{color:var(--ink);font-weight:600}
+
+.card{background:white;border:1px solid var(--line);border-radius:var(--r);padding:24px;margin-bottom:18px;box-shadow:0 1px 3px var(--shadow)}
+.card-hd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px;gap:12px;flex-wrap:wrap}
+.card-hd h2{margin:0}
+.card-hd .meta{font-family:'Courier Prime',monospace;font-size:11px;color:var(--bronze);letter-spacing:0.1em}
+
+.field{margin-bottom:14px}
+.field label{display:block;font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--bronze);margin-bottom:6px}
+.field input,.field textarea,.field select{width:100%;background:var(--parchment);border:1px solid var(--line);color:var(--ink);padding:13px 14px;border-radius:var(--r);font-size:15px;font-family:'Work Sans',sans-serif;line-height:1.5}
+.field input:focus,.field textarea:focus,.field select:focus{outline:2px solid var(--rust);outline-offset:-1px;border-color:var(--rust)}
+.field textarea{min-height:140px;resize:vertical}
+
+.btn{background:var(--rust);color:var(--parchment);border:none;padding:13px 22px;font-family:'Work Sans',sans-serif;font-weight:600;font-size:14px;cursor:pointer;border-radius:var(--r);letter-spacing:0.04em;transition:all 0.18s;box-shadow:0 2px 4px var(--shadow)}
+.btn:hover{background:var(--rust-dim);transform:translateY(-1px);box-shadow:0 4px 10px var(--shadow)}
+.btn.secondary{background:transparent;color:var(--ink);border:1px solid var(--bronze)}
+.btn.secondary:hover{background:var(--highlight);transform:none}
+.btn.knowledge{background:var(--knowledge)}
+.btn.knowledge:hover{background:#33597a}
+
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.preset-btn{background:var(--parchment-2);border:1px solid var(--line);color:var(--ink-soft);padding:5px 11px;border-radius:14px;font-family:'Courier Prime',monospace;font-size:11px;cursor:pointer;letter-spacing:0.04em}
+.preset-btn:hover{border-color:var(--rust);color:var(--rust)}
+
+.actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+
+/* COMPARISON */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:720px){.cols{grid-template-columns:1fr}}
+.col-head{padding-bottom:12px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.col-head h2{font-size:17px;margin-bottom:4px}
+.col-head .label{font-family:'Courier Prime',monospace;font-size:10px;color:var(--bronze);letter-spacing:0.2em;text-transform:uppercase}
+
+.step{background:var(--parchment);border:1px solid var(--line);border-left:3px solid var(--bronze);border-radius:var(--r);padding:11px 14px;margin-bottom:6px;display:grid;grid-template-columns:24px 1fr;gap:10px;align-items:baseline}
+.step .step-num{font-family:'Courier Prime',monospace;font-size:12px;color:var(--bronze);font-weight:700}
+.step .action{font-size:14px;color:var(--ink);font-weight:400;line-height:1.4}
+.step .tool{font-size:12px;color:var(--ink-soft);font-family:'Courier Prime',monospace;margin-top:3px;grid-column:2}
+.step .cost{font-size:11px;color:var(--ink-soft);margin-top:3px;grid-column:2}
+.step .cost .price{font-family:'Courier Prime',monospace;font-weight:700;color:var(--rust)}
+.step .fail{font-size:11px;color:var(--red);margin-top:4px;font-style:italic;grid-column:2}
+.col-sov .step{border-left-color:var(--green)}
+.col-sov .step .cost .price{color:var(--green)}
+.flow-arrow{text-align:center;color:var(--line);font-family:'Courier Prime',monospace;font-size:14px;margin:1px 0}
+
+.totals{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line)}
+.row{display:flex;justify-content:space-between;padding:5px 0;font-size:13px}
+.row .lbl{color:var(--ink-soft)}
+.row .val{font-family:'Courier Prime',monospace;color:var(--ink);font-weight:400}
+.row.grand{padding-top:10px;margin-top:6px;border-top:1px solid var(--line);font-size:15px;font-weight:600}
+.row.grand .val{color:var(--rust);font-weight:700;font-size:16px}
+.col-sov .row.grand .val{color:var(--green)}
+
+/* BILL */
+.bill-box{background:linear-gradient(180deg,var(--parchment) 0%,white 100%);border:1px solid var(--bronze);border-left:4px solid var(--rust);border-radius:var(--r);padding:22px}
+.bill-row{display:flex;justify-content:space-between;padding:6px 0;font-size:13px;border-bottom:1px dotted var(--line-soft)}
+.bill-row:last-child{border-bottom:none}
+.bill-row .lbl{color:var(--ink-soft)}
+.bill-row .val{font-family:'Courier Prime',monospace;color:var(--ink);font-weight:400}
+.bill-row.total{padding:10px 0 8px;margin-top:6px;border-top:2px solid var(--ink);border-bottom:none;font-weight:700;font-size:15px}
+.bill-row.total .lbl{color:var(--ink);text-transform:uppercase;letter-spacing:0.06em;font-family:'Courier Prime',monospace;font-size:13px}
+.bill-row.total .val{color:var(--rust);font-size:17px;font-weight:700}
+.detail-line{margin-top:14px;padding:12px;background:var(--parchment-2);border-radius:var(--r);font-size:12px;color:var(--ink-soft);line-height:1.6}
+
+/* THE LADDER PANEL — the Guild diff vs fallmap */
+.ladder-box{background:var(--ink);color:var(--parchment);border-radius:var(--r);padding:26px;margin-top:20px;box-shadow:0 6px 18px var(--shadow);position:relative;overflow:hidden}
+.ladder-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--knowledge) 0%,var(--bronze) 50%,var(--rust) 100%)}
+.ladder-box .lead{font-family:'Courier Prime',monospace;font-size:11px;color:var(--bronze);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:10px}
+.ladder-box h2{color:var(--parchment);font-size:24px;margin-bottom:8px}
+.ladder-box h2 .accent{color:var(--rust);font-style:italic}
+.ladder-box .sub{color:#c8c0a8;font-size:14px;margin-bottom:20px;line-height:1.6}
+
+.ladder-rungs{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.rung{background:rgba(245,241,232,0.04);border:1px solid rgba(245,241,232,0.1);border-radius:var(--r);padding:14px 16px;display:grid;grid-template-columns:40px 1fr auto;gap:14px;align-items:center;transition:all 0.2s;cursor:pointer;text-decoration:none;color:inherit}
+.rung:hover{background:rgba(245,241,232,0.08);border-color:var(--bronze);text-decoration:none;color:inherit}
+.rung.recommended{background:rgba(200,75,49,0.10);border-color:var(--rust)}
+.rung .num{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:var(--bronze);text-align:center}
+.rung.recommended .num{color:var(--rust)}
+.rung .body .name{font-family:'Playfair Display',serif;font-weight:700;font-size:16px;color:var(--parchment);margin-bottom:3px}
+.rung .body .desc{font-size:12px;color:#b8b09a;line-height:1.5}
+.rung .pill{font-family:'Courier Prime',monospace;font-size:10px;color:var(--bronze);letter-spacing:0.1em;text-transform:uppercase;border:1px solid var(--bronze);padding:4px 9px;border-radius:12px;white-space:nowrap}
+.rung.recommended .pill{color:var(--parchment);background:var(--rust);border-color:var(--rust)}
+
+.ladder-box .cta{margin-top:22px;padding-top:18px;border-top:1px dashed rgba(245,241,232,0.15);display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.ladder-box .cta .note{font-size:12px;color:#a8a08a;max-width:480px;line-height:1.55}
+.ladder-box .cta .btn{background:var(--rust)}
+
+/* SAVINGS BANNER */
+.savings{background:var(--highlight);border:1px solid var(--bronze);border-radius:var(--r);padding:20px;text-align:center;margin-top:18px}
+.savings .label{font-family:'Courier Prime',monospace;font-size:11px;color:var(--bronze);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:6px}
+.savings .amount{font-family:'Playfair Display',serif;font-size:38px;font-weight:900;color:var(--rust);line-height:1.1}
+.savings .sub{font-size:12px;color:var(--ink-soft);margin-top:6px}
+
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(26,22,20,0.65);display:none;align-items:center;justify-content:center;padding:18px;z-index:200}
+.modal-bg.open{display:flex}
+.modal{background:var(--parchment);border:1px solid var(--bronze);border-radius:var(--r);padding:26px;max-width:640px;width:100%;max-height:90vh;overflow:auto;position:relative;box-shadow:0 12px 36px rgba(0,0,0,0.4)}
+.modal-hd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.modal-hd h2{margin:0}
+.modal-close{background:none;border:none;font-size:24px;color:var(--ink-soft);cursor:pointer;line-height:1;padding:0 6px}
+.modal-close:hover{color:var(--rust)}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--parchment);padding:10px 20px;border-radius:var(--r);font-family:'Courier Prime',monospace;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;opacity:0;transition:all 0.25s;z-index:300;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+footer{margin-top:40px;padding:18px 22px 24px;border-top:1px solid var(--line);max-width:1100px;margin-left:auto;margin-right:auto;text-align:center;font-size:12px;color:var(--ink-soft);line-height:1.7}
+footer .seal{font-family:'Courier Prime',monospace;color:var(--bronze);letter-spacing:0.14em;margin-top:6px;font-size:11px}
+footer a{color:var(--rust)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="top">
+    <div class="brand">
+      <div class="brand-mark">⚒</div>
+      <div class="brand-text">
+        <div class="name">ACG Mapper</div>
+        <div class="sub">a guild diagnostic</div>
+      </div>
+    </div>
+    <div class="toolbar">
+      <button class="icon-btn" id="btnTier">offline</button>
+      <button class="icon-btn" id="btnSettings">settings</button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="eyebrow">step zero on the ladder</div>
+  <h1>Paste your workflow.<br><span class="accent">Find your rung.</span></h1>
+  <p>An <a href="https://aicraftspeopleguild.github.io/acg-services.html" target="_blank">AI Craftspeople Guild</a> diagnostic. The mapper reads your operating workflow, surfaces the SaaS stack a consultant would sell you and the sovereign single-file alternative for each step, then tells you <strong>which Guild audit fits the stage you're at</strong> if you build it yourself. Runs entirely in your browser. Nothing leaves your device.</p>
+</section>
+
+<section class="card">
+  <div class="card-hd">
+    <h2>1 · your workflow</h2>
+    <div class="meta">parser: <span id="parserTier">T0 · built-in rules</span></div>
+  </div>
+  <div class="field">
+    <label>describe your operating workflow in plain english</label>
+    <textarea id="wfInput" placeholder='e.g. "Enquiries by email, qualify the lead, send a quote, follow up, close, onboard the client, deliver the work, invoice, chase payment, gather a testimonial."'></textarea>
+  </div>
+  <div>
+    <div style="font-family:'Courier Prime',monospace;font-size:11px;color:var(--bronze);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:6px">presets</div>
+    <div class="presets">
+      <button class="preset-btn" onclick="usePreset(0)">consulting</button>
+      <button class="preset-btn" onclick="usePreset(1)">saas funnel</button>
+      <button class="preset-btn" onclick="usePreset(2)">trades</button>
+      <button class="preset-btn" onclick="usePreset(3)">legal</button>
+      <button class="preset-btn" onclick="usePreset(4)">fitness</button>
+    </div>
+  </div>
+  <div class="actions">
+    <button class="btn" onclick="mapWorkflow()">⇶ Map it</button>
+    <button class="btn secondary" onclick="document.getElementById('wfInput').value=''">clear</button>
+  </div>
+</section>
+
+<section class="card" id="comparison" style="display:none">
+  <div class="card-hd">
+    <h2>2 · the comparison</h2>
+    <div class="meta">consultant route vs sovereign route</div>
+  </div>
+  <div class="cols">
+    <div class="col-cons">
+      <div class="col-head">
+        <h2>What a £20k consultant builds</h2>
+        <div class="label">paid subscriptions · vendor lock</div>
+      </div>
+      <div id="consultantSteps"></div>
+      <div class="totals" id="consultantTotal"></div>
+    </div>
+    <div class="col-sov">
+      <div class="col-head">
+        <h2>What you could have instead</h2>
+        <div class="label">sovereign single files · on-device</div>
+      </div>
+      <div id="sovereignSteps"></div>
+      <div class="totals" id="sovereignTotal"></div>
+    </div>
+  </div>
+</section>
+
+<section class="card bill-box" id="billBox" style="display:none">
+  <div class="card-hd">
+    <h2>3 · the bill</h2>
+    <div class="meta">year one cost · both routes</div>
+  </div>
+  <div id="billBody"></div>
+  <div class="savings">
+    <div class="label">you could save</div>
+    <div class="amount" id="savingsAmount">·</div>
+    <div class="sub" id="savingsSub">·</div>
+  </div>
+</section>
+
+<section class="ladder-box" id="ladderBox" style="display:none">
+  <div class="lead">guild diagnostic</div>
+  <h2>The cheap route still ships <span class="accent">AI-built code.</span></h2>
+  <p class="sub">Whether you take the consultant route or build it yourself with AI, software gets shipped — by humans, by agents, or by both. Speed hides problems. Here's which Guild audit fits the stage of build you're about to do. The Guild is the impartial layer. Independence is the service.</p>
+
+  <div class="ladder-rungs" id="ladderRungs"></div>
+
+  <div class="cta">
+    <div class="note">An audit tells you what your codebase actually contains — not what you hope it contains. Trust needs proof, and proof has to be checked.</div>
+    <a class="btn" href="https://aicraftspeopleguild.github.io/acg-services.html" target="_blank">Explore Guild services →</a>
+  </div>
+</section>
+
+<section class="actions" id="actionsBlock" style="display:none">
+  <button class="btn secondary" onclick="exportReport()">↓ download report</button>
+  <button class="btn secondary" onclick="shareSummary()">⌷ copy share text</button>
+</section>
+
+</main>
+
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <div class="modal-hd">
+      <h2 id="modalTitle">·</h2>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast">·</div>
+
+<footer>
+  <div>An <a href="https://aicraftspeopleguild.github.io" target="_blank">AI Craftspeople Guild</a> diagnostic · single HTML · sovereign · forked from <a href="https://github.com/sjgant80-hub/fallmap" target="_blank">FallMap</a> · MIT</div>
+  <div class="seal">prime 503 · ⚒ · trust needs proof · proof has to be checked</div>
+</footer>
+
+<script>
+'use strict';
+
+// ═══════════════════════════════════════════
+// ACG Mapper · workflow → consultant cost → guild rung
+// forked from FallMap (prime 241) · co-branded with the AI Craftspeople Guild
+// prime 503 · MIT
+// ═══════════════════════════════════════════
+
+const VERSION = '1.0.0';
+const PRIME = 503;
+const STORE = 'acg-mapper-state';
+
+let state = {
+  saved: [],
+  settings: {
+    consultantRate: 'mid',
+    anthropicKey: '', openaiKey: '', geminiKey: '', openrouterKey: '',
+  },
+  meta: { created: Date.now(), version: VERSION },
+};
+
+async function saveState() { try { localStorage.setItem(STORE, JSON.stringify(state)); } catch (e) {} }
+async function loadState() { try { const raw = localStorage.getItem(STORE); if (raw) state = Object.assign(state, JSON.parse(raw)); } catch (e) {} }
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._to);
+  t._to = setTimeout(() => t.classList.remove('show'), 1800);
+}
+function escHTML(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+const money = n => '£' + Math.round(+n || 0).toLocaleString('en-GB');
+
+// ═══ PRESETS ═══
+const PRESETS = [
+  'We get enquiries by email, qualify the lead, book a discovery call, send a proposal, follow up, close the deal, onboard the client, deliver the work in phases, invoice on milestones, chase late payment, and gather a testimonial.',
+  'Marketing drives traffic, leads sign up via a form, we send an email sequence, qualify them with a survey, book a demo, send a quote, close the deal, onboard them through a setup wizard, deliver the SaaS, support tickets come in, invoice monthly.',
+  'Customer calls or messages, I quote the job, agree the date, buy materials, do the work, take photos, send the invoice, chase payment, file the receipt for tax, log the mileage.',
+  'Client enquiry by phone or email, conflict check, initial consultation, send engagement letter, file open, research, draft, review, court appearance, send the bill, file closed.',
+  'Lead comes in via Instagram, free trial sign-up, intake form, first session booked, onboarding call, fitness assessment, programme assignment, weekly check-ins, monthly billing, renewals or cancellations.',
+];
+function usePreset(i) {
+  document.getElementById('wfInput').value = PRESETS[i] || '';
+  toast('preset loaded');
+  document.getElementById('wfInput').focus();
+}
+
+// ═══ WORKFLOW PARSER (inherited from FallMap engine, unchanged) ═══
+const STEP_TYPES = {
+  intake:    { verbs: /\b(receive|get|capture|sign[- ]?up|enquir|inbound|incoming|lead|contact|form|messag)/i },
+  qualify:   { verbs: /\b(qualif|score|filter|screen|assess|vet|check|conflict)/i },
+  schedule:  { verbs: /\b(book|schedule|call|meet|discover|demo|consult|appoint)/i },
+  quote:     { verbs: /\b(quote|proposal|estimat|price|propos|engagement)/i },
+  follow:    { verbs: /\b(follow.?up|nurture|sequence|email|chase|reminder|drip)/i },
+  close:     { verbs: /\b(close|win|sign|agree|contract|deal|convert)/i },
+  onboard:   { verbs: /\b(onboard|setup|kick.?off|wizard|welcome|intake.form|initial)/i },
+  deliver:   { verbs: /\b(deliver|build|execut|complet|do the|provide|service|programme|session|appearance|draft|research)/i },
+  invoice:   { verbs: /\b(invoice|bill|charge|collect|payment.request|milestone|monthly)/i },
+  pay_chase: { verbs: /\b(chase|overdue|late.payment|remind.payment|collect.payment)/i },
+  support:   { verbs: /\b(support|ticket|help|issue|complaint|service)/i },
+  marketing: { verbs: /\b(marketing|advertise|content|traffic|seo|ads|instagram|linkedin|social)/i },
+  inventory: { verbs: /\b(materials|stock|supplies|inventory|purchase.materials|buy)/i },
+  logistics: { verbs: /\b(mileage|travel|drive|journey|expenses|receipt|photo)/i },
+  feedback:  { verbs: /\b(testimonial|review|feedback|nps|case.study|gather)/i },
+  renew:     { verbs: /\b(renew|cancel|churn|upgrade|downgrade)/i },
+};
+function classify(stepText) {
+  for (const [key, def] of Object.entries(STEP_TYPES)) {
+    if (def.verbs.test(stepText)) return key;
+  }
+  return 'deliver';
+}
+function parseWorkflow(text) {
+  const t = String(text || '').replace(/[.;]\s+/g, '|').replace(/\bthen\b/gi, '|').replace(/\b(and then|then we|we then)\b/gi, '|');
+  const chunks = t.split(/[,|]\s+/).map(s => s.trim()).filter(s => s.length > 4);
+  return chunks.slice(0, 12).map((s, i) => ({
+    id: i + 1,
+    action: s.replace(/^(we |the |a )/i, '').replace(/[.!?]$/, '').slice(0, 80),
+    type: classify(s),
+  }));
+}
+
+// ═══ SAAS DB (built-in · T0) ═══
+const SAAS_DB = {
+  intake:    [{ name: 'HubSpot CRM Starter', mo: 45, fail: 'leads lost in Zapier silence' }],
+  qualify:   [{ name: 'HubSpot Pro (lead scoring)', mo: 90, fail: 'scoring model needs constant tuning' }],
+  schedule:  [{ name: 'Calendly Premium', mo: 16, fail: 'embed breaks on mobile · branded for them' }],
+  quote:     [{ name: 'PandaDoc', mo: 35, fail: 'template locked · PDF-only export' }],
+  follow:    [{ name: 'Mailchimp Essentials', mo: 13, fail: 'deliverability dips · gmail tab' }],
+  close:     [{ name: 'DocuSign', mo: 25, fail: 'another login for the client' }],
+  onboard:   [{ name: 'Notion + Tally form', mo: 23, fail: 'two tools · no native flow' }],
+  deliver:   [{ name: 'Asana Premium', mo: 11, fail: 'work tracked outside the deliverable' }],
+  invoice:   [{ name: 'Xero Standard', mo: 36, fail: 'another data silo · MTD compliance gates premium' }],
+  pay_chase: [{ name: 'Chaser', mo: 75, fail: 'looks templated · clients ignore' }],
+  support:   [{ name: 'Intercom Essential', mo: 74, fail: 'per-seat scaling · price doubles at year 2' }],
+  marketing: [{ name: 'Buffer + Canva Pro', mo: 30, fail: 'two more logins to forget' }],
+  inventory: [{ name: 'Cin7 Core Standard', mo: 199, fail: 'enterprise-priced for SMEs' }],
+  logistics: [{ name: 'TripLog Premium', mo: 6, fail: 'limited integrations · vendor lock' }],
+  feedback:  [{ name: 'Typeform Plus', mo: 50, fail: 'submission limits · upsells per quota' }],
+  renew:     [{ name: 'ChartMogul Start', mo: 100, fail: 'overkill for sub-100 customer counts' }],
+};
+const CONSULTANT_RATES = {
+  low:     { discovery: 1500, mapping: 2000, implementation: 5000, training: 1500, retainer: 800 },
+  mid:     { discovery: 3000, mapping: 4000, implementation: 10000, training: 3000, retainer: 2000 },
+  high:    { discovery: 5000, mapping: 6000, implementation: 18000, training: 5000, retainer: 3500 },
+  luxury:  { discovery: 10000, mapping: 12000, implementation: 35000, training: 8000, retainer: 7500 },
+};
+function pickSaas(type) { const list = SAAS_DB[type] || SAAS_DB.deliver; return list[0]; }
+function consultantTotal(steps, rateTier) {
+  const r = CONSULTANT_RATES[rateTier] || CONSULTANT_RATES.mid;
+  const oneOff = r.discovery + r.mapping + r.implementation + r.training;
+  const monthlySaas = steps.reduce((s, st) => { const saas = pickSaas(st.type); return s + (saas ? saas.mo : 0); }, 0);
+  return {
+    oneOff, monthlySaas,
+    yearlySaas: monthlySaas * 12,
+    retainerMonthly: r.retainer,
+    retainerYearly: r.retainer * 12,
+    year1: oneOff + (monthlySaas * 12) + (r.retainer * 12),
+    yearN: (monthlySaas * 12) + (r.retainer * 12),
+    breakdown: r,
+  };
+}
+
+// ═══ SOVEREIGN MAPPING ═══
+const SOVEREIGN_DB = {
+  intake:    { tool: 'FallForce', url: 'https://sjgant80-hub.github.io/fallforce', why: 'intake agent captures enquiry · on-device' },
+  qualify:   { tool: 'FallForce', url: 'https://sjgant80-hub.github.io/fallforce', why: 'bloom routing scores lead automatically' },
+  schedule:  { tool: 'FallSlot', url: 'https://sjgant80-hub.github.io/fallslot', why: 'calendar link · iCal export · no third-party booking page' },
+  quote:     { tool: 'FallForce', url: 'https://sjgant80-hub.github.io/fallforce', why: 'quote agent drafts · print-to-PDF · no template lock' },
+  follow:    { tool: 'FallReach', url: 'https://sjgant80-hub.github.io/fallreach', why: 'sequence agent · timed reminders on your device' },
+  close:     { tool: 'FallForce', url: 'https://sjgant80-hub.github.io/fallforce', why: 'engagement letter agent · plain markdown export' },
+  onboard:   { tool: 'GymOS · FallForce', url: 'https://sjgant80-hub.github.io/gymos', why: 'onboarding flow with phase gates · on-device' },
+  deliver:   { tool: 'FallForce + Forge output', url: 'https://sjgant80-hub.github.io/fallforce', why: 'domain-specific agents · sovereign HTML' },
+  invoice:   { tool: 'FallAccount Trades', url: 'https://sjgant80-hub.github.io/fallaccount-trades', why: 'invoice agent · tracks paid/unpaid · MTD ready' },
+  pay_chase: { tool: 'FallAccount Trades', url: 'https://sjgant80-hub.github.io/fallaccount-trades', why: 'overdue insights auto-detect · no third tool to chase' },
+  support:   { tool: 'FallForce', url: 'https://sjgant80-hub.github.io/fallforce', why: 'support tickets as records · same single file' },
+  marketing: { tool: 'FallGravity', url: 'https://sjgant80-hub.github.io/fallgravity', why: 'LinkedIn algo strategy · post scorer · 90-min boost window' },
+  inventory: { tool: 'Forge custom', url: 'https://sjgant80-hub.github.io/forge-prime', why: 'forge a domain-specific inventory agent · one HTML' },
+  logistics: { tool: 'FallAccount Trades', url: 'https://sjgant80-hub.github.io/fallaccount-trades', why: 'mileage logger · HMRC auto-calc · 45p/25p built-in' },
+  feedback:  { tool: 'FallList', url: 'https://sjgant80-hub.github.io/falllist', why: 'testimonial collection · stays on your device' },
+  renew:     { tool: 'FallForce', url: 'https://sjgant80-hub.github.io/fallforce', why: 'renewal calendar agent · alerts on your device' },
+};
+function pickSovereign(type) { return SOVEREIGN_DB[type] || SOVEREIGN_DB.deliver; }
+
+// ═══ CASCADE (sovereign T0/T1/T2/T3) ═══
+const Cascade = {
+  async detectTier() {
+    if (await Cascade._probeLocal()) return 'T2';
+    const s = state.settings;
+    if (s.anthropicKey || s.openaiKey || s.geminiKey || s.openrouterKey) return 'T3';
+    return 'T0';
+  },
+  async _probeLocal() {
+    if (Cascade._localProbed !== undefined) return Cascade._localProbed;
+    try {
+      const r = await Promise.race([
+        fetch('http://127.0.0.1:11434/api/tags').then(r => r.ok),
+        new Promise(res => setTimeout(() => res(false), 400)),
+      ]);
+      Cascade._localProbed = !!r;
+    } catch (e) { Cascade._localProbed = false; }
+    return Cascade._localProbed;
+  },
+  async generate(prompt) {
+    const s = state.settings;
+    if (s.anthropicKey) try {
+      const r = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-api-key': s.anthropicKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+        body: JSON.stringify({ model: 'claude-haiku-4-5', max_tokens: 1200, messages: [{ role: 'user', content: prompt }] })
+      });
+      const d = await r.json();
+      return { tier: 'T3·Claude', text: d?.content?.[0]?.text || '' };
+    } catch (e) {}
+    if (s.geminiKey) try {
+      const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${s.geminiKey}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+      });
+      const d = await r.json();
+      return { tier: 'T3·Gemini', text: d?.candidates?.[0]?.content?.parts?.[0]?.text || '' };
+    } catch (e) {}
+    if (s.openaiKey) try {
+      const r = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + s.openaiKey },
+        body: JSON.stringify({ model: 'gpt-4o-mini', messages: [{ role: 'user', content: prompt }] })
+      });
+      const d = await r.json();
+      return { tier: 'T3·GPT', text: d?.choices?.[0]?.message?.content || '' };
+    } catch (e) {}
+    if (s.openrouterKey) try {
+      const r = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + s.openrouterKey, 'HTTP-Referer': location.origin },
+        body: JSON.stringify({ model: 'anthropic/claude-haiku-4-5', messages: [{ role: 'user', content: prompt }] })
+      });
+      const d = await r.json();
+      return { tier: 'T3·OpenRouter', text: d?.choices?.[0]?.message?.content || '' };
+    } catch (e) {}
+    if (await Cascade._probeLocal()) try {
+      const r = await fetch('http://127.0.0.1:11434/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model: 'llama3.2', prompt, stream: false })
+      });
+      const d = await r.json();
+      return { tier: 'T2·local', text: d?.response || '' };
+    } catch (e) {}
+    return { tier: 'T0', text: null };
+  },
+};
+
+// ═══════════════════════════════════════════
+// THE GUILD LADDER — the diff vs FallMap
+// ═══════════════════════════════════════════
+// Maps workflow signal → which ACG ladder rung fits the user's build stage.
+// Source: aicraftspeopleguild.github.io/acg-services.html "The Ladder"
+const LADDER = [
+  {
+    id: 'consult',
+    num: '0',
+    name: 'Pre-build consult',
+    desc: 'Not sure yet whether you have a problem. A short structured conversation before you commit to building anything.',
+    url: 'https://aicraftspeopleguild.github.io/acg-services.html',
+    signal: 'small'
+  },
+  {
+    id: 'prelaunch',
+    num: '1',
+    name: 'Pre-launch code audit',
+    desc: 'You\'re shipping AI-assisted code into production. Independent scrutiny against the audit checklist before real users hit it.',
+    url: 'https://aicraftspeopleguild.github.io/acg-services.html',
+    signal: 'shipping'
+  },
+  {
+    id: 'reaudit',
+    num: '2',
+    name: 'Post-sprint re-audit',
+    desc: 'You\'ve already shipped. The codebase has drifted under heavy AI-assisted iteration. Catch the compounding before it costs more.',
+    url: 'https://aicraftspeopleguild.github.io/acg-services.html',
+    signal: 'iterating'
+  },
+  {
+    id: 'agents',
+    num: '3',
+    name: 'Agent-system audit',
+    desc: 'You\'re running autonomous agents in production. Agent-specific risks: prompt injection, tool over-permissioning, runaway autonomy.',
+    url: 'https://aicraftspeopleguild.github.io/acg-services.html',
+    signal: 'agents'
+  }
+];
+
+function assessLadderPosition(steps) {
+  // signals → rung weight
+  const w = { consult: 1, prelaunch: 1, reaudit: 1, agents: 1 };
+  const stepCount = steps.length;
+
+  // more steps → more software surface → higher rung
+  if (stepCount >= 8) w.prelaunch += 2;
+  if (stepCount >= 10) w.reaudit += 1;
+
+  // regulated / high-stakes types lift the agent rung
+  const types = new Set(steps.map(s => s.type));
+  if (types.has('invoice') || types.has('pay_chase')) w.agents += 2; // money flow
+  if (types.has('quote') || types.has('close')) w.agents += 1;       // contractual
+  if (types.has('support')) w.reaudit += 1;                          // ongoing iteration shape
+  if (types.has('marketing')) w.prelaunch += 1;
+  if (types.has('intake') && types.has('qualify') && types.has('schedule')) w.agents += 1; // autonomous pipeline
+
+  // tiny workflow → consult is the right entry
+  if (stepCount <= 4) w.consult += 3;
+
+  // pick the heaviest
+  const order = ['consult','prelaunch','reaudit','agents'];
+  let best = order[0], bestW = -1;
+  for (const id of order) { if (w[id] > bestW) { best = id; bestW = w[id]; } }
+  return best;
+}
+
+function renderLadder(recommendedId) {
+  const html = LADDER.map(rung => {
+    const isRec = rung.id === recommendedId;
+    return `<a class="rung ${isRec ? 'recommended' : ''}" href="${rung.url}" target="_blank">
+      <div class="num">${rung.num}</div>
+      <div class="body">
+        <div class="name">${escHTML(rung.name)}</div>
+        <div class="desc">${escHTML(rung.desc)}</div>
+      </div>
+      <div class="pill">${isRec ? 'matched to you' : 'rung ' + rung.num}</div>
+    </a>`;
+  }).join('');
+  document.getElementById('ladderRungs').innerHTML = html;
+}
+
+// ═══════════════════════════════════════════
+// MAP IT · main flow
+// ═══════════════════════════════════════════
+let currentMap = null;
+
+async function mapWorkflow() {
+  const text = document.getElementById('wfInput').value.trim();
+  if (!text) { toast('paste a workflow first'); return; }
+
+  toast('mapping…');
+  let steps = parseWorkflow(text);
+
+  const tier = await Cascade.detectTier();
+  const badge = document.getElementById('parserTier');
+  badge.textContent = tier === 'T0' ? 'T0 · built-in rules' : tier;
+  badge.classList.toggle('t3', tier !== 'T0');
+
+  if (tier !== 'T0') {
+    try {
+      const prompt = `Parse this business workflow into discrete sequential steps. Each step gets ONE classification from this list:
+intake · qualify · schedule · quote · follow · close · onboard · deliver · invoice · pay_chase · support · marketing · inventory · logistics · feedback · renew
+
+Workflow:
+${text}
+
+Reply ONLY as JSON array, max 12 steps:
+[{"id":1,"action":"short action label","type":"intake"},...]`;
+      const r = await Cascade.generate(prompt);
+      if (r.text) {
+        const json = r.text.match(/\[[\s\S]*\]/)?.[0];
+        if (json) {
+          const arr = JSON.parse(json);
+          if (Array.isArray(arr) && arr.length) steps = arr.slice(0, 12);
+        }
+      }
+    } catch (e) {}
+  }
+
+  if (!steps.length) { toast("couldn't parse · try more detail"); return; }
+
+  currentMap = { steps, ts: Date.now(), text };
+  renderComparison(steps);
+  document.getElementById('comparison').style.display = 'block';
+  document.getElementById('billBox').style.display = 'block';
+  document.getElementById('ladderBox').style.display = 'block';
+  document.getElementById('actionsBlock').style.display = 'flex';
+
+  // Guild diff: surface the ladder rung that fits
+  const recommended = assessLadderPosition(steps);
+  renderLadder(recommended);
+  currentMap.recommended = recommended;
+
+  setTimeout(() => document.getElementById('comparison').scrollIntoView({ behavior: 'smooth', block: 'start' }), 200);
+}
+
+function renderComparison(steps) {
+  const consultantHTML = steps.map((s, i) => {
+    const saas = pickSaas(s.type);
+    const lastIdx = i === steps.length - 1;
+    return `<div class="step">
+      <div class="step-num">${i + 1}</div>
+      <div class="action">${escHTML(s.action)}</div>
+      <div class="tool">→ ${escHTML(saas.name)}</div>
+      <div class="cost">${saas.mo ? `<span class="price">£${saas.mo}/mo</span>` : 'included above'}</div>
+      ${saas.fail ? `<div class="fail">⚠ ${escHTML(saas.fail)}</div>` : ''}
+    </div>${lastIdx ? '' : '<div class="flow-arrow">↓</div>'}`;
+  }).join('');
+  document.getElementById('consultantSteps').innerHTML = consultantHTML;
+
+  const sovereignHTML = steps.map((s, i) => {
+    const sov = pickSovereign(s.type);
+    const lastIdx = i === steps.length - 1;
+    return `<div class="step">
+      <div class="step-num">${i + 1}</div>
+      <div class="action">${escHTML(s.action)}</div>
+      <div class="tool">→ ${escHTML(sov.tool)}</div>
+      <div class="cost"><span class="price">£0/mo</span> · ${escHTML(sov.why)}</div>
+    </div>${lastIdx ? '' : '<div class="flow-arrow">↓</div>'}`;
+  }).join('');
+  document.getElementById('sovereignSteps').innerHTML = sovereignHTML;
+
+  const c = consultantTotal(steps, state.settings.consultantRate);
+  document.getElementById('consultantTotal').innerHTML = `
+    <div class="row"><span class="lbl">One-off (discovery + map + impl + training)</span><span class="val">${money(c.oneOff)}</span></div>
+    <div class="row"><span class="lbl">SaaS · ${money(c.monthlySaas)}/mo × 12</span><span class="val">${money(c.yearlySaas)}</span></div>
+    <div class="row"><span class="lbl">Retainer · ${money(c.retainerMonthly)}/mo × 12</span><span class="val">${money(c.retainerYearly)}</span></div>
+    <div class="row grand"><span>Year 1 total</span><span>${money(c.year1)}</span></div>
+    <div class="row" style="margin-top:6px"><span class="lbl">Year 2+ ongoing</span><span class="val">${money(c.yearN)}/yr</span></div>
+  `;
+
+  const uniqueTools = new Set(steps.map(s => pickSaas(s.type).name)).size;
+  const uniqueSovereign = new Set(steps.map(s => pickSovereign(s.type).tool)).size;
+
+  document.getElementById('sovereignTotal').innerHTML = `
+    <div class="row"><span class="lbl">Tools needed (sovereign)</span><span class="val">${uniqueSovereign} HTML file${uniqueSovereign === 1 ? '' : 's'}</span></div>
+    <div class="row"><span class="lbl">Monthly cost</span><span class="val">£0</span></div>
+    <div class="row"><span class="lbl">DIY or branded (once)</span><span class="val">£0 – £5,000</span></div>
+    <div class="row grand"><span>Year 1 maximum</span><span>${money(5000)}</span></div>
+    <div class="row" style="margin-top:6px"><span class="lbl">Year 2+ ongoing</span><span class="val">£0</span></div>
+  `;
+
+  renderBill(steps, c, uniqueTools, uniqueSovereign);
+}
+
+function renderBill(steps, c, uniqueTools, uniqueSovereign) {
+  const r = c.breakdown;
+  const saasLines = steps.map(s => {
+    const saas = pickSaas(s.type);
+    if (!saas.mo) return null;
+    return `<div class="bill-row"><span class="lbl">${escHTML(saas.name)} · £${saas.mo}/mo × 12</span><span class="val">${money(saas.mo * 12)}</span></div>`;
+  }).filter(Boolean).join('');
+
+  document.getElementById('billBody').innerHTML = `
+    <h3 style="color:var(--red);margin-bottom:10px">Consulting bill (year 1)</h3>
+    <div class="bill-row"><span class="lbl">Discovery workshop</span><span class="val">${money(r.discovery)}</span></div>
+    <div class="bill-row"><span class="lbl">Workflow mapping</span><span class="val">${money(r.mapping)}</span></div>
+    <div class="bill-row"><span class="lbl">Implementation</span><span class="val">${money(r.implementation)}</span></div>
+    <div class="bill-row"><span class="lbl">Training</span><span class="val">${money(r.training)}</span></div>
+    <div class="bill-row"><span class="lbl">Consultant total (one-off)</span><span class="val">${money(c.oneOff)}</span></div>
+    <div style="height:8px"></div>
+    ${saasLines}
+    <div class="bill-row"><span class="lbl">SaaS total year 1 (${steps.length} tools)</span><span class="val">${money(c.yearlySaas)}</span></div>
+    <div style="height:8px"></div>
+    <div class="bill-row"><span class="lbl">Retainer · ${money(r.retainer)}/mo × 12</span><span class="val">${money(c.retainerYearly)}</span></div>
+    <div class="bill-row total"><span class="lbl">Year 1 total</span><span class="val">${money(c.year1)}</span></div>
+    <div class="bill-row"><span class="lbl">Year 2+ ongoing</span><span class="val">${money(c.yearN)}/yr</span></div>
+
+    <h3 style="color:var(--green);margin:18px 0 10px">Sovereign alternative</h3>
+    <div class="bill-row"><span class="lbl">${uniqueSovereign} sovereign tool${uniqueSovereign === 1 ? '' : 's'} · all MIT</span><span class="val">£0</span></div>
+    <div class="bill-row"><span class="lbl">DIY or branded fork (once)</span><span class="val">£0 – £5,000</span></div>
+    <div class="bill-row"><span class="lbl">Monthly</span><span class="val">£0</span></div>
+    <div class="bill-row total"><span class="lbl">Year 1 maximum</span><span class="val">£5,000</span></div>
+    <div class="bill-row"><span class="lbl">Year 2+ ongoing</span><span class="val">£0</span></div>
+
+    <div class="detail-line">
+      Consultant route locks you to <b style="color:var(--red)">${uniqueTools}</b> platforms · ${uniqueTools} logins · ${uniqueTools} data silos. Sovereign route: <b style="color:var(--green)">${uniqueSovereign}</b> file${uniqueSovereign === 1 ? '' : 's'}, your data, your device, indefinitely.
+    </div>
+  `;
+
+  const savings = c.year1 - 5000;
+  document.getElementById('savingsAmount').textContent = money(savings);
+  document.getElementById('savingsSub').textContent = `in year one alone · then ${money(c.yearN)}/year ongoing for as long as you stay`;
+}
+
+// ═══ EXPORT / SHARE ═══
+function exportReport() {
+  if (!currentMap) return;
+  const c = consultantTotal(currentMap.steps, state.settings.consultantRate);
+  const rec = LADDER.find(r => r.id === currentMap.recommended);
+  const lines = [
+    `ACG Mapper Report · ${new Date().toISOString().slice(0,10)}`,
+    '═══════════════════════════════════════',
+    '',
+    'YOUR WORKFLOW:',
+    currentMap.text,
+    '',
+    'PARSED STEPS:',
+    ...currentMap.steps.map((s, i) => `${i + 1}. ${s.action}  [${s.type}]`),
+    '',
+    'WHAT A £20K CONSULTANT BUILDS YOU:',
+    ...currentMap.steps.map((s, i) => {
+      const saas = pickSaas(s.type);
+      return `${i + 1}. ${s.action} → ${saas.name} · £${saas.mo}/mo · ⚠ ${saas.fail || ''}`;
+    }),
+    '',
+    `Consultant one-off: ${money(c.oneOff)}`,
+    `SaaS year 1: ${money(c.yearlySaas)}`,
+    `Retainer year 1: ${money(c.retainerYearly)}`,
+    `YEAR 1 TOTAL: ${money(c.year1)}`,
+    `YEAR 2+: ${money(c.yearN)}/yr`,
+    '',
+    'SOVEREIGN ALTERNATIVE:',
+    ...currentMap.steps.map((s, i) => {
+      const sov = pickSovereign(s.type);
+      return `${i + 1}. ${s.action} → ${sov.tool} · ${sov.why}`;
+    }),
+    '',
+    `Sovereign one-time max: £5,000 (brand + config · optional)`,
+    `Sovereign ongoing: £0`,
+    '',
+    `YOU COULD SAVE ${money(c.year1 - 5000)} IN YEAR ONE`,
+    `THEN ${money(c.yearN)}/YEAR ONGOING`,
+    '',
+    '─── GUILD DIAGNOSTIC ───',
+    '',
+    `Recommended rung: ${rec ? rec.name : '—'}`,
+    `${rec ? rec.desc : ''}`,
+    `Service page: ${rec ? rec.url : ''}`,
+    '',
+    'The cheap route still ships AI-built code.',
+    'Trust needs proof, and proof has to be checked.',
+    '',
+    'Generated by ACG Mapper · sjgant80-hub.github.io/acg-mapper',
+    'An AI Craftspeople Guild diagnostic · prime 503 · ⚒',
+  ].join('\n');
+  const blob = new Blob([lines], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `acg-mapper-report-${new Date().toISOString().slice(0,10)}.txt`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  toast('report downloaded');
+}
+
+function shareSummary() {
+  if (!currentMap) return;
+  const c = consultantTotal(currentMap.steps, state.settings.consultantRate);
+  const rec = LADDER.find(r => r.id === currentMap.recommended);
+  const text = `Just ran my workflow through the ACG Mapper.
+
+A consultant would build it with ${currentMap.steps.length} SaaS subscriptions across ${new Set(currentMap.steps.map(s => pickSaas(s.type).name)).size} platforms.
+
+Year 1: ${money(c.year1)} · Year 2+: ${money(c.yearN)}/yr.
+
+Sovereign alternative: ${new Set(currentMap.steps.map(s => pickSovereign(s.type).tool)).size} HTML files, £0/month, data on my device.
+
+Savings: ${money(c.year1 - 5000)} year one.
+
+Then the Guild diagnostic landed me on: ${rec ? rec.name : 'a rung'}. Independent audit before I ship.
+
+Try it: sjgant80-hub.github.io/acg-mapper · an @AICraftspeopleGuild diagnostic.
+
+#aiaudit #sovereigntools #aicraftspeopleguild`;
+  navigator.clipboard.writeText(text).then(() => toast('share text copied'));
+}
+
+// ═══ MODAL & SETTINGS ═══
+function showModal(title, body) {
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalBody').innerHTML = body;
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+document.getElementById('modal').addEventListener('click', e => { if (e.target.id === 'modal') closeModal(); });
+
+document.getElementById('btnSettings').addEventListener('click', () => {
+  showModal('Settings', `
+    <div class="field">
+      <label>consultant rate tier (for cost calc)</label>
+      <select id="stRate">
+        <option value="low" ${state.settings.consultantRate==='low'?'selected':''}>Low · indie / starter (one-off £10k, £800/mo retainer)</option>
+        <option value="mid" ${state.settings.consultantRate==='mid'?'selected':''}>Mid · established firm (one-off £20k, £2k/mo retainer)</option>
+        <option value="high" ${state.settings.consultantRate==='high'?'selected':''}>High · digital agency (one-off £34k, £3.5k/mo retainer)</option>
+        <option value="luxury" ${state.settings.consultantRate==='luxury'?'selected':''}>Luxury · Big 4 / boutique (one-off £65k, £7.5k/mo retainer)</option>
+      </select>
+    </div>
+
+    <h3 style="margin:18px 0 8px">AI keys · sharpen the parser</h3>
+    <p style="color:var(--ink-soft);font-size:12px;margin-bottom:8px">Any one of these unlocks T3 parsing. <a href="https://aistudio.google.com/apikey" target="_blank">Gemini is free</a>. Stays on this device.</p>
+    <div class="field"><label>Anthropic · Claude</label><input id="stAnthropic" type="password" value="${escHTML(state.settings.anthropicKey)}"></div>
+    <div class="field"><label>OpenAI · GPT</label><input id="stOpenAI" type="password" value="${escHTML(state.settings.openaiKey)}"></div>
+    <div class="field"><label>Gemini · free</label><input id="stGemini" type="password" value="${escHTML(state.settings.geminiKey)}"></div>
+    <div class="field"><label>OpenRouter</label><input id="stOpenRouter" type="password" value="${escHTML(state.settings.openrouterKey)}"></div>
+
+    <div style="margin-top:20px;text-align:center;color:var(--ink-soft);font-size:11px;font-family:'Courier Prime',monospace;letter-spacing:0.08em">
+      ACG Mapper · v${VERSION} · prime ${PRIME}<br>
+      A Guild diagnostic · forked from FallMap
+    </div>
+    <div style="margin-top:14px"><button class="btn" onclick="saveSettings()">save</button></div>
+  `);
+});
+
+async function saveSettings() {
+  state.settings.consultantRate = document.getElementById('stRate').value;
+  state.settings.anthropicKey = document.getElementById('stAnthropic').value;
+  state.settings.openaiKey = document.getElementById('stOpenAI').value;
+  state.settings.geminiKey = document.getElementById('stGemini').value;
+  state.settings.openrouterKey = document.getElementById('stOpenRouter').value;
+  Cascade._localProbed = undefined;
+  await saveState();
+  await updateTierBadge();
+  closeModal();
+  toast('saved');
+  if (currentMap) renderComparison(currentMap.steps);
+}
+
+async function updateTierBadge() {
+  const tier = await Cascade.detectTier();
+  document.getElementById('btnTier').textContent = tier === 'T0' ? 'offline' : tier;
+}
+
+// ═══ KONOMI · sovereign tier ═══
+window.KONOMI = { active: true, tier: 'sovereign', check: () => ({ ok: true, tier: 'sovereign' }) };
+
+// ═══ FALLMESH ═══
+try {
+  const sig = new BroadcastChannel('fall-signal');
+  sig.postMessage({ source: 'acg-mapper', type: 'hello', prime: PRIME, version: VERSION, ts: Date.now() });
+  sig.addEventListener('message', e => {
+    const m = e.data;
+    if (m && m.type === 'ping') sig.postMessage({ source: 'acg-mapper', type: 'pong', prime: PRIME });
+  });
+} catch (e) {}
+
+// ═══ postMessage API ═══
+window.addEventListener('message', async (e) => {
+  const m = e.data;
+  if (!m || m.target !== 'acg-mapper' || !m.action) return;
+  let resp = null;
+  if (m.action === 'ping') resp = { ok: true, prime: PRIME, version: VERSION };
+  else if (m.action === 'map' && m.workflow) {
+    const steps = parseWorkflow(m.workflow);
+    const c = consultantTotal(steps, m.rate || state.settings.consultantRate);
+    const rec = assessLadderPosition(steps);
+    resp = { steps, consultant: c, savings: c.year1 - 5000, recommendedRung: rec };
+  }
+  e.source?.postMessage({ target: m.source || '*', responseTo: m.action, data: resp }, '*');
+});
+
+// ═══ BOOT ═══
+(async function init() {
+  await loadState();
+  await updateTierBadge();
+})();
+</script>
+</body>
+</html>
