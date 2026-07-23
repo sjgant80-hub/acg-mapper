@@ -1,0 +1,17 @@
+{
+  "name": "acg-mapper",
+  "version": "1.0.0",
+  "description": "An AI Craftspeople Guild diagnostic: paste a workflow, see the consultant-plus-SaaS build cost, the sovereign alternative, and the matched audit rung. Single on-device HTML file.",
+  "type": "module",
+  "main": "index.html",
+  "scripts": {
+    "test": "node test.mjs"
+  },
+  "author": "Simon Gant",
+  "license": "MIT",
+  "homepage": "https://sjgant80-hub.github.io/acg-mapper/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sjgant80-hub/acg-mapper"
+  }
+}
