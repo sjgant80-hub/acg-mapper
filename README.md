@@ -102,4 +102,4 @@ Add a key to `STEP_TYPES` with a verb-matching regex. Add a mapping to `SAAS_DB`
 - **AI Craftspeople Guild** — the audit checklist that framed the discipline · the ladder that defines the services · [aicraftspeopleguild.github.io](https://aicraftspeopleguild.github.io)
 - **FallMap** — the engine this is forked from · the workflow → cost → comparison pattern
 
-⚒ Part of the [fall* estate](https://github.com/sjgant80-hub) · prime 503 · ◊·κ=1
+⚒ Part of the [fall* estate](https://github.com/sjgant80-hub)
